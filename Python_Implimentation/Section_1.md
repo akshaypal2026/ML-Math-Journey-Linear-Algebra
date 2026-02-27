@@ -5,10 +5,10 @@
 
 ## 🏗️ Section 1: The Solver
 **The Goal:** Find the exact price for one bedroom and one bathroom based on two apartment examples.
+
 **Key Concepts:** 
 Unique Solution: Your data is clean; the lines intersect at one perfect point.
 Weights: The results (20 and 10). This is the "logic" the AI uses to predict prices for new houses.
-
 
 
 ```python
@@ -27,8 +27,3 @@ solution = np.linalg.solve(A, B)
 
 print(f"Price per Bedroom:  ₹{solution[0]}L") # Result: 20
 print(f"Price per Bathroom: ₹{solution[1]}L") # Result: 10
-
-🔑 Key Concepts:
-Unique Solution: Your data is clean; the lines intersect at one perfect point.
-
-Weights: The results (20 and 10). This is the "logic" the AI uses to predict prices for new houses.
