@@ -1,83 +1,89 @@
-# ==========================================
-# 📂 MASTER LOG: VIDEOS 1–9 (Python + Math)
-# ==========================================
+🏗️ Section 1: The Solver
+The Goal: Find the exact price for one bedroom and one bathroom based on two apartment examples.
 
 import numpy as np
-import sympy as sp
-import matplotlib.pyplot as plt
 
-# ---------------------------------------------------------
-# 🏗️ SECTION 1: THE SOLVER (Finding Feature Weights)
-# ---------------------------------------------------------
-# Concept: We use Row Reduction to find the exact "Weight" 
-# of features like Bedrooms and Bathrooms.
+# 1. THE DATA: [Bedrooms, Bathrooms]
+A = np.array([[2, 1],   # Apt 1: 2 Bed, 1 Bath
+              [1, 2]])  # Apt 2: 1 Bed, 2 Bath
 
-# Features: [Bedrooms, Bathrooms] 
-# Apt 1: 2 Bed, 1 Bath | Apt 2: 1 Bed, 2 Bath
-A = np.array([[2, 1], 
-              [1, 2]])
-
-# Target: Prices (₹50L and ₹40L)
+# 2. THE PRICES: [Total Rent in Lakhs]
 B = np.array([50, 40])
 
-# np.linalg.solve: Finds the Unique Solution (Intersection point)
+# 3. THE MATH: Automated Row Reduction (RREF)
+# Finds the weights (prices) for each individual feature
 solution = np.linalg.solve(A, B)
 
-print("--- SECTION 1: THE SOLVER ---")
-print(f"Result: Price per Bedroom is ₹{solution[0]}L")
-print(f"Result: Price per Bathroom is ₹{solution[1]}L")
+print(f"Price per Bedroom:  ₹{solution[0]}L") # Result: 20
+print(f"Price per Bathroom: ₹{solution[1]}L") # Result: 10
 
+🔑 Simple Terms:
 
-# ---------------------------------------------------------
-# 🔍 SECTION 2: THE AUDITOR (Checking for Redundancy)
-# ---------------------------------------------------------
-# Concept: "Rank" tells us how many useful columns we have.
-# If a column is just a copy or calculation of another, Rank decreases.
+Unique Solution: Your data is clean; the lines intersect at one perfect point.
 
-# Data: Area, Rooms, and (Area * 2) <- Redundant!
+Weights: The results (20 and 10). This is the "logic" the AI uses to predict prices for new houses.
+
+🔍 Section 2: The Auditor
+The Goal: Check if your dataset has "copy-cat" columns (Redundant Data) that provide zero new information to your model.
+
+import numpy as np
+
+# 1. THE DATA
+# Feature 1: Area | Feature 2: Rooms | Feature 3: Area x 2 (Useless!)
 matrix = np.array([[1000, 2, 2000],
                    [1500, 3, 3000],
                    [2000, 4, 4000]])
 
+# 2. THE AUDIT
+# "Rank" counts the number of useful columns (Pivots)
 rank = np.linalg.matrix_rank(matrix)
 num_cols = matrix.shape[1]
 
-print("\n--- SECTION 2: THE AUDITOR ---")
-print(f"Total Columns: {num_cols}")
-print(f"Useful Features (Rank): {rank}")
+print(f"Total Columns: {num_cols}") # Result: 3
+print(f"Useful Features (Rank): {rank}") # Result: 2
 
+# 3. THE VERDICT
 if rank < num_cols:
-    print("⚠️ Verdict: Redundant data detected! Delete 'copy-cat' columns.")
+    print("⚠️ Redundant data detected! One column is just a copy-cat.")
+🔑 Simple Terms:
 
+Rank: The number of "true" dimensions in your data. It tells you how many columns actually matter.
 
-# ---------------------------------------------------------
-# 🎨 SECTION 3: THE VISUALIZER (Linear Dependence)
-# ---------------------------------------------------------
-# Concept: A "Dependent" vector (Green) doesn't add a new 
-# direction; it just lands where Red + Blue already go.
+Linear Dependence: When one column is just a calculation of another. It adds "noise" and makes models slower without adding value.
 
-# Define Vectors
-v1 = np.array([1, 0])  # Red
-v2 = np.array([0, 1])  # Blue
-v3 = v1 + v2           # Green (Dependent on Red and Blue)
+🎨 Section 3: The Visualizer
+The Goal: Visualize how a "dependent" vector (Green) is just a combination of others and doesn't explore any new space.
 
-# Origins for the arrows
-origins_x, origins_y = [0, 0, 0], [0, 0, 0]
-veccs_x, veccs_y = [v1[0], v2[0], v3[0]], [v1[1], v2[1], v3[1]]
+import matplotlib.pyplot as plt
+import numpy as np
 
+# 1. THE VECTORS
+v1 = np.array([1, 0])  # Red Vector
+v2 = np.array([0, 1])  # Blue Vector (Independent)
+v3 = v1 + v2           # Green Vector (Dependent! It is just Red + Blue)
+
+# 2. THE PLOT
+# Origins (0,0,0) and Components (x,y)
 plt.figure(figsize=(5,5))
-plt.quiver(origins_x, origins_y, veccs_x, veccs_y, 
+plt.quiver([0,0,0], [0,0,0], [v1[0], v2[0], v3[0]], [v1[1], v2[1], v3[1]], 
            color=['r', 'b', 'g'], scale=1, scale_units='xy', angles='xy')
 
-plt.xlim(-1, 2); plt.ylim(-1, 2); plt.grid(True, linestyle='--')
-plt.axhline(0, color='black', linewidth=1); plt.axvline(0, color='black', linewidth=1)
+# 3. STYLING
+plt.xlim(-1, 2); plt.ylim(-1, 2); plt.grid(True)
 plt.title("Visualizing Dependence: Green = Red + Blue")
 plt.show()
 
-# ==========================================
-# 🏁 KEY TERMS FOR YOUR NOTEBOOK:
-# 1. Unique Solution: Data is perfect; every input has one output.
-# 2. Rank: The number of "true" dimensions in your data.
-# 3. Span: The boundaries of what your AI can actually see.
-# 4. Independence: No "copy-cat" columns allowed!
-# ==========================================
+🔑 Simple Terms:
+
+Span: The "Universe" or total area your vectors can reach.
+
+Linear Independence: Vectors that point in unique directions.
+
+Redundancy: Like the Green vector, redundant data just sits on top of what you already know.
+
+🏁 Final Summary for your Video Logs
+Section 1 (The Solver): Finds the Weights (the secret logic in data).
+
+Section 2 (The Auditor): Finds the Rank (the actual amount of info).
+
+Section 3 (The Visualizer): Sees the Independence (the direction of data).
