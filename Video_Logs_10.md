@@ -19,6 +19,7 @@ When graphing, we usually look for the **Intercepts** first. This is basically a
 You don't *have* to be lazy. The roommates can share the load, but they must stay balanced to keep the total at 3:
 * If **x** buys 1, **y** must buy 2 (1 + 2 = 3).
 * If **x** buys 2, **y** must buy 1 (2 + 1 = 3).
+* If **x** buys 1.5 snacks (don't ask me how), **y** buys 1.5 (1.5 + 1.5 = 3).
 * **The Tragedy of (1, 1):** If both roommates only buy 1 snack, they only have 2 total. The "Equation Landlord" will evict them. The point (1, 1) is **NOT** on our line because 1 + 1 is not 3.
 
 ### 4. The Map (The Graph)
